@@ -12,11 +12,19 @@ data_dir = "/var/lib/vector/"
   mode = "unix" 
   path = "/var/run/vector.sock"
 
-[transforms.log_json]
+[transforms.log_remap]
   type = "remap"
   inputs = ["fly_socket"]
   source = '''
   . = parse_json!(.message)
+  '''
+
+[transforms.log_json]
+  type = "filter"
+  inputs = ["log_remap"]
+  condition = '''
+  app_name = string!(.fly.app.name)
+  app_name == "gather-dispatcher" || starts_with(app_name, "gather-proxy")
   '''
 
 [sinks.fly_log_metrics_prometheus]

@@ -1,4 +1,11 @@
-app = "fly-log-shipper-example"
+# fly.toml file generated for log-forwarder on 2022-02-15T19:52:09+07:00
+
+app = "log-forwarder"
+
+[env]
+  ORG = "doyobi"
+  QUEUE = "log-forwarder"
+  SUBJECT = "logs.>"
 
 [metrics]
   port = 9598
